@@ -8,6 +8,13 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 
+/**
+ * Handles authentication failures for unauthenticated requests.
+ *
+ * Returns HTTP 401 Unauthorized with a JSON response when a request
+ * requires authentication but no valid authentication credentials
+ * are provided.
+ */
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 

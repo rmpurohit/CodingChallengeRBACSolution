@@ -8,6 +8,13 @@ import org.springframework.security.web.access.AccessDeniedHandler;
 import org.springframework.stereotype.Component;
 import java.io.IOException;
 
+/**
+ * Handles authorization failures for authenticated users.
+ *
+ * Returns HTTP 403 Forbidden with a JSON response when a user is
+ * authenticated but does not have the required role or permission
+ * to access a resource.
+ */
 @Component
 public class RestAccessDeniedHandler implements AccessDeniedHandler {
 
