@@ -1,5 +1,6 @@
 package com.globalside.codingchallenge.rbac.config;
 
+import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.http.MediaType;
@@ -18,14 +19,20 @@ import java.io.IOException;
 @Component
 public class RestAuthenticationEntryPoint implements AuthenticationEntryPoint {
 
+    private final ObjectMapper objectMapper;
+
+    public RestAuthenticationEntryPoint(ObjectMapper objectMapper) {
+        this.objectMapper = objectMapper;
+    }
+
     @Override
     public void commence(HttpServletRequest request,
                          HttpServletResponse response,
                          AuthenticationException authException) throws IOException {
         response.setStatus(HttpServletResponse.SC_UNAUTHORIZED);
         response.setContentType(MediaType.APPLICATION_JSON_VALUE);
-        response.getWriter().write(
-                "{\"status\": 401, \"error\": \"Unauthorized\", " +
-                        "\"message\": \"Authentication is required to access this resource.\"}");
+        objectMapper.writeValue(
+                response.getWriter(),
+                new APIErrorResponse(401, "Unauthorized", "Authentication is required to access this resource."));
     }
 }
